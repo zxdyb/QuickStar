@@ -27,7 +27,7 @@ CREATE TABLE `t_customer_type` (
   `typeid` varchar(100) NOT NULL,
   `typename` varchar(100) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
-  `extend` varchar(4000) DEFAULT '',
+  `extend` varchar(4000) DEFAULT ''
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -46,9 +46,9 @@ CREATE TABLE `t_customer_info` (
   `receive_address` varchar(100) DEFAULT '',
   `bank` varchar(100) DEFAULT '',
   `account_bank` varchar(100) DEFAULT '',
-  `duty_number` varchar(100) DEFAULT '',
-  `fax_number` varchar(100) DEFAULT '',
-  `typeid` varchar(100) NOT NULL,
+  `duty_number` varchar(100) DEFAULT '', #税号
+  `fax_number` varchar(100) DEFAULT '', #传真号
+  `customer_typeid` varchar(100) NOT NULL,
   `createdate` datetime NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
   `extend` varchar(4000) DEFAULT '',
@@ -57,6 +57,62 @@ CREATE TABLE `t_customer_info` (
   INDEX index_ref2(name, createdate)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `t_commodity_measurement_unit` ( #商品计量单位
+  `id` varchar(36) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `t_commodity_type` ( #商品类型
+  `id` varchar(36) NOT NULL,
+  `parent_id` varchar(36) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `t_commodity_manufacturer` ( #商品厂家
+  `id` varchar(36) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE `t_commodity_price_rate` ( #商品价格倍率
+  `id` varchar(36) NOT NULL,
+  `name` varchar(200) NOT NULL,
+  `rate` varchar(200) NOT NULL, #倍率
+  `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
+
+CREATE TABLE `t_commodity_info` (
+  `id` varchar(36) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `code` varchar(100) NOT NULL,
+  `aliasname` varchar(100) DEFAULT '',
+  `commodity_typeid` varchar(100) DEFAULT '',
+  `specification_model` varchar(200) DEFAULT '',
+  `qq` varchar(100) DEFAULT '',
+  `webchat` varchar(100) DEFAULT '',
+  `taobao` varchar(100) DEFAULT '',
+  `zhifubao` varchar(100) DEFAULT '',
+  `email` varchar(100) DEFAULT '',
+  `receive_address` varchar(100) DEFAULT '',
+  `bank` varchar(100) DEFAULT '',
+  `account_bank` varchar(100) DEFAULT '',
+  `duty_number` varchar(100) DEFAULT '',
+  `fax_number` varchar(100) DEFAULT '',
+  `createdate` datetime NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
+  `extend` varchar(4000) DEFAULT '',
+  PRIMARY KEY (`id`),
+  INDEX index_ref1(name),
+  INDEX index_ref2(name, createdate)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `t_device_info`;
 CREATE TABLE `t_device_info` (
