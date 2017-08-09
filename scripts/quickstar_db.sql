@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS QuickStarDB DEFAULT CHARSET utf8 COLLATE utf8_gene
 use QuickStarDB;
 
 DROP TABLE IF EXISTS `t_user_info`;
-CREATE TABLE `t_user_info` (
+CREATE TABLE `t_user_info` ( #系统用户信息
   `id` varchar(36) NOT NULL,
   `userid` varchar(36) NOT NULL,
   `username` varchar(100) NOT NULL,
@@ -24,6 +24,7 @@ CREATE TABLE `t_user_info` (
 
 
 ######################################################################
+DROP TABLE IF EXISTS `t_customer_type`;
 CREATE TABLE `t_customer_type` ( #客户类型
   `id` varchar(36) NOT NULL,
   `ctid` varchar(36) NOT NULL, #客户类型ID
@@ -33,6 +34,7 @@ CREATE TABLE `t_customer_type` ( #客户类型
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `t_customer_info`;
 CREATE TABLE `t_customer_info` ( #客户信息
   `id` varchar(36) NOT NULL,
   `cid` varchar(36) NOT NULL, #客户ID
@@ -65,6 +67,7 @@ CREATE TABLE `t_customer_info` ( #客户信息
 #商品类型===》商品
 #       |===》供应商
 ######################################################################
+DROP TABLE IF EXISTS `t_commodity_measurement_unit`;
 CREATE TABLE `t_commodity_measurement_unit` ( #商品计量单位
   `id` varchar(36) NOT NULL,
   `muid` varchar(36) NOT NULL,
@@ -73,6 +76,7 @@ CREATE TABLE `t_commodity_measurement_unit` ( #商品计量单位
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `t_commodity_type`;
 CREATE TABLE `t_commodity_type` ( #商品类型
   `id` varchar(36) NOT NULL,
   `ctid` varchar(36) NOT NULL,
@@ -82,6 +86,7 @@ CREATE TABLE `t_commodity_type` ( #商品类型
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `t_commodity_supplier`;
 CREATE TABLE `t_commodity_supplier` ( #商品供应商信息
   `id` varchar(36) NOT NULL,
   `csid` varchar(36) NOT NULL,
@@ -106,6 +111,7 @@ CREATE TABLE `t_commodity_supplier` ( #商品供应商信息
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `t_commodity_price_rate`;
 CREATE TABLE `t_commodity_price_rate` ( #商品价格倍率
   `id` varchar(36) NOT NULL,
   `cprid` varchar(36) NOT NULL,
@@ -115,6 +121,7 @@ CREATE TABLE `t_commodity_price_rate` ( #商品价格倍率
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `t_commodity_info`;
 CREATE TABLE `t_commodity_info` ( #商品信息
   `id` varchar(36) NOT NULL,
   `cinfoid` varchar(36) NOT NULL, #商品ID
@@ -135,5 +142,32 @@ CREATE TABLE `t_commodity_info` ( #商品信息
   INDEX index_ref1(name)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+######################################################################
+#仓库===》商品1
+#   |===》商品2
+######################################################################
+DROP TABLE IF EXISTS `t_commodity_warehouse`;
+CREATE TABLE `t_commodity_warehouse` ( #商品仓库
+  `id` varchar(36) NOT NULL,
+  `cwid` varchar(36) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `flag` varchar(100) DEFAULT '',
+  `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `t_commodity_warehouse_list`;
+CREATE TABLE `t_commodity_warehouse_list` ( #仓库商品列表
+  `id` varchar(36) NOT NULL,
+  `cwlid` varchar(36) NOT NULL, #商品仓库列表ID
+  `cinfoid` varchar(36) NOT NULL, #商品ID
+  `num` int(11) NOT NULL, #个数
+  `price` varchar(100) NOT NULL, #库存单价
+  `sum` varchar(100) NOT NULL, #金额
+  `createdate` datetime NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
+  `extend` varchar(4000) DEFAULT '',
+  PRIMARY KEY (`id`),
+  INDEX index_ref1(cinfoid)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
