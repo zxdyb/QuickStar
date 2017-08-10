@@ -30,7 +30,7 @@ CREATE TABLE `t_customer_type` ( #客户类型
   `ctid` varchar(36) NOT NULL, #客户类型ID
   `name` varchar(100) NOT NULL, #客户类型名称
   `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
-  `extend` varchar(4000) DEFAULT ''
+  `extend` varchar(4000) DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -70,7 +70,7 @@ CREATE TABLE `t_customer_info` ( #客户信息
 DROP TABLE IF EXISTS `t_commodity_measurement_unit`;
 CREATE TABLE `t_commodity_measurement_unit` ( #商品计量单位
   `id` varchar(36) NOT NULL,
-  `muid` varchar(36) NOT NULL,
+  `cmuid` varchar(36) NOT NULL,
   `name` varchar(100) NOT NULL,
   `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
   PRIMARY KEY (`id`)
@@ -124,14 +124,14 @@ CREATE TABLE `t_commodity_price_rate` ( #商品价格倍率
 DROP TABLE IF EXISTS `t_commodity_info`;
 CREATE TABLE `t_commodity_info` ( #商品信息
   `id` varchar(36) NOT NULL,
-  `cinfoid` varchar(36) NOT NULL, #商品ID
+  `ciid` varchar(36) NOT NULL, #商品ID
   `name` varchar(100) NOT NULL, #商品名称
   `code` varchar(100) NOT NULL, #商品编码（条形码）
   `aliasname` varchar(100) DEFAULT '',
-  `commodity_typeid` varchar(100) DEFAULT '', #商品类型ID
+  `ctid` varchar(100) DEFAULT '', #商品类型ID
   `specification_model` varchar(200) DEFAULT '', #规格型号
-  `measurement_unit_id` varchar(100) DEFAULT '', #计量单位ID
-  `supplier_id` varchar(100) DEFAULT '', #供应商ID
+  `cmuid` varchar(100) DEFAULT '', #计量单位ID
+  `csid` varchar(100) DEFAULT '', #供应商ID
   `price_for_sale` varchar(100) DEFAULT '', #销售价格
   `price_for_buy` varchar(100) DEFAULT '', #采购价格
   `createdate` datetime NOT NULL,
@@ -156,11 +156,11 @@ CREATE TABLE `t_commodity_warehouse` ( #商品仓库
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `t_commodity_warehouse_list`;
-CREATE TABLE `t_commodity_warehouse_list` ( #仓库商品列表
+DROP TABLE IF EXISTS `t_commodity_list`;
+CREATE TABLE `t_commodity_list` ( #商品列表
   `id` varchar(36) NOT NULL,
-  `cwlid` varchar(36) NOT NULL, #商品仓库列表ID
-  `cinfoid` varchar(36) NOT NULL, #商品ID
+  `cwid` varchar(36) NOT NULL, #商品仓库ID
+  `cid` varchar(36) NOT NULL, #商品ID
   `num` int(11) NOT NULL, #个数
   `price` varchar(100) NOT NULL, #库存单价
   `sum` varchar(100) NOT NULL, #金额
@@ -168,6 +168,40 @@ CREATE TABLE `t_commodity_warehouse_list` ( #仓库商品列表
   `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
   `extend` varchar(4000) DEFAULT '',
   PRIMARY KEY (`id`),
-  INDEX index_ref1(cinfoid)
+  INDEX index_ref1(cid)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `t_inventory_summary`;
+CREATE TABLE `t_inventory_summary` ( #盘点概要信息
+  `id` varchar(36) NOT NULL,
+  `cwid` varchar(36) NOT NULL, #商品仓库ID
+  `isid` varchar(36) NOT NULL, #盘点ID
+  `code` varchar(100) NOT NULL, #盘点单号，按照业务规则生成
+  `userid` varchar(36) NOT NULL, #盘点人员
+  `sumall` varchar(100) NOT NULL, #盘点总金额
+  `createdate` datetime NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0', #0已提交，1未提交，2作废
+  `extend` varchar(4000) DEFAULT '',
+  PRIMARY KEY (`id`),
+  INDEX index_ref1(status),
+  INDEX index_ref2(createdate)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `t_inventory_detail`;
+CREATE TABLE `t_inventory_detail` ( #盘点详细清单
+  `id` varchar(36) NOT NULL,
+  `isid` varchar(36) NOT NULL, #盘点ID
+  `idid` varchar(36) NOT NULL, #盘点详单ID
+  `cid` varchar(36) NOT NULL, #商品ID
+  `num` int(11) NOT NULL, #个数
+  `price` varchar(100) NOT NULL, #库存单价
+  `sum` varchar(100) NOT NULL, #金额
+  `createdate` datetime NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0', #0正常，1删除
+  `extend` varchar(4000) DEFAULT '',
+  PRIMARY KEY (`id`),
+  INDEX index_ref1(createdate)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+
 

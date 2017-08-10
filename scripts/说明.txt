@@ -1,1 +1,14 @@
 该目录放置数据库建库脚本和其它相关脚本文件
+
+###############################################
+后勤物资管理系统主要包括
+物资信息管理模块、
+客户信息管理模块、
+供应商信息管理模块、
+仓库信息管理模块、
+入库管理模块、
+出库管理模块、
+库存盘点模块、
+系统管理模块。
+
+Armed logistical supplies management system mainly includes material information management module, customer information management module supplier information management module, warehouse management module, the storage management module, a database management module, inventory module, system management module. 
